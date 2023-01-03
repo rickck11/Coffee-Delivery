@@ -1,11 +1,12 @@
-import { Presentation } from "./components/presentation";
+import { CoffeeMenu } from "./components/CoffeeMenu";
+import { Presentation } from "./components/Presentation";
 import { HomeContainer } from "./styles";
 
 export function Home() {
   return (
     <HomeContainer>
       <Presentation />
-      <h2>Nossos cafés</h2>
+      <CoffeeMenu />
     </HomeContainer>
   );
 }
