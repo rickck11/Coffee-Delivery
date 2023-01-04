@@ -34,6 +34,11 @@ export const CoffeCardContainer = styled.div`
       gap: 0.5rem;
     }
   }
+
+  button {
+    border: none;
+    background-color: transparent;
+  }
 `;
 
 export const CoffeeTitle = styled.p`

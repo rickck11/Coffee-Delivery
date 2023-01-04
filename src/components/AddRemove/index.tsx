@@ -1,18 +1,29 @@
 import { Minus, Plus } from "phosphor-react";
+import { useState } from "react";
 import { AddRemoveContainer } from "./styles";
 
-interface AddRemoveProps {
-  amount: number;
-}
+export function AddRemove() {
+  const [amount, setAmount] = useState(0);
 
-export function AddRemove({ amount }: AddRemoveProps) {
+  function handleAdd() {
+    if (amount < 99) {
+      setAmount(amount + 1);
+    }
+  }
+
+  function handleRemove() {
+    if (amount > 0) {
+      setAmount(amount - 1);
+    }
+  }
+
   return (
     <AddRemoveContainer>
-      <button>
+      <button onClick={handleRemove}>
         <Minus size={16} weight="fill" />
       </button>
       <p>{amount.toString()}</p>
-      <button>
+      <button onClick={handleAdd}>
         <Plus size={16} weight="fill" />
       </button>
     </AddRemoveContainer>

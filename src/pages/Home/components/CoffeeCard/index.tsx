@@ -27,6 +27,10 @@ export function CoffeeCard({
   thirdTag,
   price,
 }: CoffeeCardProps) {
+  function handleCart() {
+    console.log("clicou");
+  }
+
   return (
     <CoffeCardContainer>
       <img src={imageSrc} alt="" />
@@ -46,8 +50,10 @@ export function CoffeeCard({
             .replace(".", ",")}
         </CoffeePrice>
         <div>
-          <AddRemove amount={1} />
-          <CartButton color="purple" />
+          <AddRemove />
+          <button onClick={handleCart}>
+            <CartButton color="purple" />
+          </button>
         </div>
       </div>
     </CoffeCardContainer>

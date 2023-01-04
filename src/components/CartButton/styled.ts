@@ -13,7 +13,7 @@ enum CartBackground {
   purple = "purple-dark",
 }
 
-export const CartButtonContainer = styled.button<CartButtonContainerProps>`
+export const CartButtonContainer = styled.div<CartButtonContainerProps>`
   position: relative;
   display: flex;
   justify-content: center;
