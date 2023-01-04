@@ -1,12 +1,13 @@
-import { createContext, ReactNode } from "react";
+import { createContext, ReactNode, useState } from "react";
 
-interface Products {
+interface Product {
   id: string;
   amount: number;
 }
 
 interface CartContextType {
-  cart: Products[];
+  cart: Product[];
+  addNewProduct: (newProduct: Product) => void;
 }
 
 export const CartContext = createContext({} as CartContextType);
@@ -16,5 +17,20 @@ interface CartContextProviderProps {
 }
 
 export function CartContextProvider({ children }: CartContextProviderProps) {
-  return <CartContextProvider>{children}</CartContextProvider>;
+  const [cart, setCart] = useState<Product[]>([]);
+
+  function addNewProduct(newProduct: Product) {
+    setCart((state) => [...state, newProduct]);
+  }
+
+  return (
+    <CartContext.Provider
+      value={{
+        cart,
+        addNewProduct,
+      }}
+    >
+      {children}
+    </CartContext.Provider>
+  );
 }
