@@ -1,31 +1,52 @@
 import { CartButton } from "../../../../components/CartButton";
-import Coffee from "../../../../assets/coffee/ExpressoTradicional.svg";
 import {
   CoffeCardContainer,
   CoffeeDescription,
   CoffeePrice,
   CoffeeTitle,
+  Tag,
 } from "./styles";
 import { AddRemove } from "../../../../components/AddRemove";
 
-export function CoffeeCard() {
+interface CoffeeCardProps {
+  title: string;
+  description: string;
+  imageSrc: string;
+  firstTag?: string;
+  secondTag?: string;
+  thirdTag?: string;
+  price: number;
+}
+
+export function CoffeeCard({
+  title,
+  description,
+  imageSrc,
+  firstTag,
+  secondTag,
+  thirdTag,
+  price,
+}: CoffeeCardProps) {
   return (
     <CoffeCardContainer>
-      <img src={Coffee} alt="" />
+      <img src={imageSrc} alt="" />
       <div className="tags">
-        <div>tag1</div>
-        <div>tag2</div>
+        {firstTag && <Tag>{firstTag}</Tag>}
+        {secondTag && <Tag>{secondTag}</Tag>}
+        {thirdTag && <Tag>{thirdTag}</Tag>}
       </div>
-      <CoffeeTitle>Expresso Tradicional</CoffeeTitle>
-      <CoffeeDescription>
-        O tradicional café feito com água quente e grãos moidos
-      </CoffeeDescription>
+      <CoffeeTitle>{title}</CoffeeTitle>
+      <CoffeeDescription>{description}</CoffeeDescription>
       <div className="control">
         <CoffeePrice>
-          <small>R$</small>9,90
+          <small>R$</small>
+          {price
+            .toFixed(2)
+            .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+            .replace(".", ",")}
         </CoffeePrice>
         <div>
-          <AddRemove />
+          <AddRemove amount={1} />
           <CartButton color="purple" />
         </div>
       </div>

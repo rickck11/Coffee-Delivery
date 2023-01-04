@@ -12,3 +12,9 @@ export const CoffeeMenuContaier = styled.div`
     margin-bottom: 3.375rem;
   }
 `;
+
+export const CoffeeCards = styled.div`
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+`;

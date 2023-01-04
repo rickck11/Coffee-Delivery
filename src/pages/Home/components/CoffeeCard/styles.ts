@@ -19,6 +19,7 @@ export const CoffeCardContainer = styled.div`
 
   div.tags {
     display: flex;
+    gap: 4px;
   }
 
   div.control {
@@ -38,6 +39,7 @@ export const CoffeCardContainer = styled.div`
 export const CoffeeTitle = styled.p`
   color: ${(props) => props.theme["base-subtitle"]};
   font-weight: 700;
+  font-family: "Baloo 2", sans-serif;
   font-size: 1.25rem;
   line-height: 130%;
   margin-top: 1rem;
@@ -63,4 +65,15 @@ export const CoffeePrice = styled.p`
     font-size: 0.875rem;
     text-align: right;
   }
+`;
+
+export const Tag = styled.div`
+  color: ${(props) => props.theme["yellow-dark"]};
+  background-color: ${(props) => props.theme["yellow-light"]};
+  font-family: "Roboto";
+  font-weight: 700;
+  font-size: 0.625rem;
+  line-height: 130%;
+  padding: 4px 8px;
+  border-radius: 8px;
 `;
