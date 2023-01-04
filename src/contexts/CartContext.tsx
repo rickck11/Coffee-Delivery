@@ -10,6 +10,7 @@ interface CartContextType {
   cart: Product[];
   addNewProduct: (newProduct: Product) => void;
   deleteProduct: (id: string) => void;
+  resetCart: () => void;
 }
 
 export const CartContext = createContext({} as CartContextType);
@@ -44,9 +45,9 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
     }
   }
 
-  useEffect(() => {
-    console.log(cart);
-  }, [cart]);
+  function resetCart() {
+    setCart([]);
+  }
 
   return (
     <CartContext.Provider
@@ -54,6 +55,7 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
         cart,
         addNewProduct,
         deleteProduct,
+        resetCart,
       }}
     >
       {children}

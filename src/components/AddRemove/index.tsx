@@ -12,11 +12,11 @@ interface AddRemoveProps {
 export function AddRemove({ h, amount, addOne, removeOne }: AddRemoveProps) {
   return (
     <AddRemoveContainer h={h}>
-      <button onClick={removeOne}>
+      <button onClick={removeOne} type="button">
         <Minus size={16} weight="fill" />
       </button>
       <p>{amount.toString()}</p>
-      <button onClick={addOne}>
+      <button onClick={addOne} type="button">
         <Plus size={16} weight="fill" />
       </button>
     </AddRemoveContainer>
