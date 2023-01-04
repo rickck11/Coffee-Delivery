@@ -3,11 +3,13 @@ import { createContext, ReactNode, useEffect, useState } from "react";
 interface Product {
   id: string;
   amount: number;
+  price: number;
 }
 
 interface CartContextType {
   cart: Product[];
   addNewProduct: (newProduct: Product) => void;
+  deleteProduct: (id: string) => void;
 }
 
 export const CartContext = createContext({} as CartContextType);
@@ -19,7 +21,7 @@ interface CartContextProviderProps {
 export function CartContextProvider({ children }: CartContextProviderProps) {
   const [cart, setCart] = useState<Product[]>([]);
 
-  function addNewProduct({ id, amount }: Product) {
+  function addNewProduct({ id, amount, price }: Product) {
     const isProductOnCart = cart.find((c) => c.id === id);
     if (isProductOnCart) {
       const updatedCart = cart.map((c) => {
@@ -30,7 +32,15 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
       });
       setCart(updatedCart);
     } else {
-      setCart((state) => [...state, { id, amount }]);
+      setCart((state) => [...state, { id, amount, price }]);
+    }
+  }
+
+  function deleteProduct(id: string) {
+    const isProductOnCart = cart.find((c) => c.id === id);
+    if (isProductOnCart) {
+      const deleteItem = cart.filter((c) => c.id !== id);
+      setCart(deleteItem);
     }
   }
 
@@ -43,6 +53,7 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
       value={{
         cart,
         addNewProduct,
+        deleteProduct,
       }}
     >
       {children}

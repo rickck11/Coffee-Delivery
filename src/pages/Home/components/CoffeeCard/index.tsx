@@ -49,7 +49,7 @@ export function CoffeeCard({
 
   function handleCartButton() {
     if (amount > 0) {
-      addNewProduct({ id, amount });
+      addNewProduct({ id, amount, price });
       setAmount(0);
     }
   }

@@ -20,18 +20,22 @@ export function ProductOnCart({
   title,
   price,
 }: ProductOnCartProps) {
-  const { addNewProduct } = useContext(CartContext);
+  const { addNewProduct, deleteProduct } = useContext(CartContext);
 
   function handleAdd() {
     if (amount < 99) {
-      addNewProduct({ id, amount: amount + 1 });
+      addNewProduct({ id, amount: 1, price });
     }
   }
 
   function handleRemove() {
-    if (amount > 0) {
-      addNewProduct({ id, amount: amount - 1 });
+    if (amount > 1) {
+      addNewProduct({ id, amount: -1, price });
     }
+  }
+
+  function handleDeleteProduct() {
+    deleteProduct(id);
   }
 
   return (
@@ -47,7 +51,7 @@ export function ProductOnCart({
               addOne={handleAdd}
               removeOne={handleRemove}
             />
-            <RemoveItemButton>
+            <RemoveItemButton onClick={handleDeleteProduct}>
               <Trash size={18} />
               <p>REMOVER</p>
             </RemoveItemButton>

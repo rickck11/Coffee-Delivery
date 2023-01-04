@@ -111,10 +111,18 @@ export const PaymentContainer = styled.div`
   gap: 32px;
 `;
 
-export const PaymentOptionsContainer = styled.div`
+interface PaymentOptionsContainerProps {
+  paymentMode: number;
+}
+
+export const PaymentOptionsContainer = styled.div<PaymentOptionsContainerProps>`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 12px;
+  button:nth-child(${(props) => (props.paymentMode ? props.paymentMode : 0)}) {
+    background-color: ${(props) => props.theme["purple-light"]};
+    border: 1px solid ${(props) => props.theme["purple-dark"]};
+  }
 `;
 
 export const ButtonPayment = styled.button`
@@ -174,6 +182,12 @@ export const ConfirmPayment = styled.div`
     &:hover {
       cursor: pointer;
       opacity: 0.8;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      background-color: ${(props) => props.theme["base-subtitle"]};
+      opacity: 0.3;
     }
   }
 `;

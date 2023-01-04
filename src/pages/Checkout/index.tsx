@@ -6,10 +6,10 @@ import {
   Money,
   Trash,
 } from "phosphor-react";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CoffeeList } from "../../assets/coffee/CoffeeList";
-import { AddRemove } from "../../components/AddRemove";
 import { CartContext } from "../../contexts/CartContext";
+import { formartNumberToCurrency } from "../../utils/utils";
 import { ProductOnCart } from "./ProductOnCart";
 import {
   ButtonPayment,
@@ -24,19 +24,29 @@ import {
 
 export function Checkout() {
   const { cart } = useContext(CartContext);
-  const [amount, setAmount] = useState(0);
+  const [paymentMode, setPaymentMode] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [finalPrice, setFinalPrice] = useState(0);
 
-  function handleAdd() {
-    if (amount < 99) {
-      setAmount(amount + 1);
-    }
+  const delivery = 3.5;
+  const haveItemsOnCart = cart.length > 0;
+
+  function handleChangePaymentMode(mode: number) {
+    setPaymentMode(mode);
   }
 
-  function handleRemove() {
-    if (amount > 0) {
-      setAmount(amount - 1);
+  useEffect(() => {
+    setFinalPrice(totalPrice + delivery);
+  }, [totalPrice]);
+
+  useEffect(() => {
+    let totalPrice = 0;
+    for (const c of cart) {
+      totalPrice += c.price * c.amount;
     }
-  }
+    setTotalPrice(totalPrice);
+  }, [cart]);
+
   return (
     <CheckoutContainer>
       <section>
@@ -78,16 +88,28 @@ export function Checkout() {
               </p>
             </span>
           </ContainerInformations>
-          <PaymentOptionsContainer>
-            <ButtonPayment>
+          <PaymentOptionsContainer paymentMode={paymentMode}>
+            <ButtonPayment
+              onClick={() => {
+                handleChangePaymentMode(1);
+              }}
+            >
               <CreditCard size={18} />
               <p>CARTÃO DE CRÉDITO</p>
             </ButtonPayment>
-            <ButtonPayment>
+            <ButtonPayment
+              onClick={() => {
+                handleChangePaymentMode(2);
+              }}
+            >
               <Bank size={18} />
               <p>CARTÃO DE DÉBITO</p>
             </ButtonPayment>
-            <ButtonPayment>
+            <ButtonPayment
+              onClick={() => {
+                handleChangePaymentMode(3);
+              }}
+            >
               <Money size={18} />
               <p>DINHEIRO</p>
             </ButtonPayment>
@@ -96,7 +118,6 @@ export function Checkout() {
       </section>
       <aside>
         <h3>Cafés selecionados</h3>
-        {/* Selected Coffee List */}
         <CoffeeContainer>
           {cart.map((c) => {
             const productInfos = CoffeeList.find((cof) => cof.id === c.id);
@@ -118,17 +139,17 @@ export function Checkout() {
           <ConfirmPayment>
             <p>
               <span>Total de itens</span>
-              <span>R$ 29,70</span>
+              <span>R$ {formartNumberToCurrency(totalPrice, "BR")}</span>
             </p>
             <p>
               <span>Entrega</span>
-              <span>R$ 3,50</span>
+              <span>R$ {formartNumberToCurrency(delivery, "BR")}</span>
             </p>
             <strong>
               <span>Total</span>
-              <span>R$ 33,20</span>
+              <span>R$ {formartNumberToCurrency(finalPrice, "BR")}</span>
             </strong>
-            <button>CONFIRMAR PEDIDO</button>
+            <button disabled={!haveItemsOnCart}>CONFIRMAR PEDIDO</button>
           </ConfirmPayment>
         </CoffeeContainer>
       </aside>
