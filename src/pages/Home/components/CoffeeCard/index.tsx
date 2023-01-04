@@ -7,8 +7,11 @@ import {
   Tag,
 } from "./styles";
 import { AddRemove } from "../../../../components/AddRemove";
+import { useContext, useState } from "react";
+import { CartContext } from "../../../../contexts/CartContext";
 
 interface CoffeeCardProps {
+  id: string;
   title: string;
   description: string;
   imageSrc: string;
@@ -19,6 +22,7 @@ interface CoffeeCardProps {
 }
 
 export function CoffeeCard({
+  id,
   title,
   description,
   imageSrc,
@@ -27,8 +31,26 @@ export function CoffeeCard({
   thirdTag,
   price,
 }: CoffeeCardProps) {
-  function handleCart() {
-    console.log("clicou");
+  const { addNewProduct } = useContext(CartContext);
+  const [amount, setAmount] = useState(0);
+
+  function handleAdd() {
+    if (amount < 99) {
+      setAmount(amount + 1);
+    }
+  }
+
+  function handleRemove() {
+    if (amount > 0) {
+      setAmount(amount - 1);
+    }
+  }
+
+  function handleCartButton() {
+    if (amount > 0) {
+      addNewProduct({ id, amount });
+      setAmount(0);
+    }
   }
 
   return (
@@ -50,8 +72,12 @@ export function CoffeeCard({
             .replace(".", ",")}
         </CoffeePrice>
         <div>
-          <AddRemove />
-          <button onClick={handleCart}>
+          <AddRemove
+            amount={amount}
+            addOne={handleAdd}
+            removeOne={handleRemove}
+          />
+          <button onClick={handleCartButton}>
             <CartButton color="purple" />
           </button>
         </div>

@@ -4,30 +4,19 @@ import { AddRemoveContainer } from "./styles";
 
 interface AddRemoveProps {
   h?: number;
+  amount: number;
+  addOne: () => void;
+  removeOne: () => void;
 }
 
-export function AddRemove({ h }: AddRemoveProps) {
-  const [amount, setAmount] = useState(0);
-
-  function handleAdd() {
-    if (amount < 99) {
-      setAmount(amount + 1);
-    }
-  }
-
-  function handleRemove() {
-    if (amount > 0) {
-      setAmount(amount - 1);
-    }
-  }
-
+export function AddRemove({ h, amount, addOne, removeOne }: AddRemoveProps) {
   return (
     <AddRemoveContainer h={h}>
-      <button onClick={handleRemove}>
+      <button onClick={removeOne}>
         <Minus size={16} weight="fill" />
       </button>
       <p>{amount.toString()}</p>
-      <button onClick={handleAdd}>
+      <button onClick={addOne}>
         <Plus size={16} weight="fill" />
       </button>
     </AddRemoveContainer>

@@ -11,6 +11,7 @@ export function CoffeeMenu() {
           return (
             <CoffeeCard
               key={coffee.id}
+              id={coffee.id}
               title={coffee.title}
               description={coffee.description}
               imageSrc={coffee.imageSrc}

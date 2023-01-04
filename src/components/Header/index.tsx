@@ -3,8 +3,23 @@ import { MapPin } from "phosphor-react";
 import { HeaderContainer, Location } from "./styles";
 import { CartButton } from "../CartButton";
 import { NavLink } from "react-router-dom";
+import { CartContext } from "../../contexts/CartContext";
+import { useContext, useEffect, useState } from "react";
 
 export function Header() {
+  const [totalProducts, setTotalProducts] = useState(0);
+  const { cart } = useContext(CartContext);
+
+  useEffect(() => {
+    let total = 0;
+    for (const c of cart) {
+      total += c.amount;
+    }
+    if (total !== totalProducts) {
+      setTotalProducts(total);
+    }
+  }, [cart]);
+
   return (
     <HeaderContainer>
       <NavLink to="/">
@@ -20,7 +35,7 @@ export function Header() {
           <CartButton
             color="yellow"
             notify={true}
-            productsAmount={12}
+            productsAmount={totalProducts}
           ></CartButton>
         </NavLink>
       </nav>

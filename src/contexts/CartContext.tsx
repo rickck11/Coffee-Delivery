@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
 
 interface Product {
   id: string;
@@ -19,9 +19,24 @@ interface CartContextProviderProps {
 export function CartContextProvider({ children }: CartContextProviderProps) {
   const [cart, setCart] = useState<Product[]>([]);
 
-  function addNewProduct(newProduct: Product) {
-    setCart((state) => [...state, newProduct]);
+  function addNewProduct({ id, amount }: Product) {
+    const isProductOnCart = cart.find((c) => c.id === id);
+    if (isProductOnCart) {
+      const updatedCart = cart.map((c) => {
+        if (c.id === id) {
+          return { ...c, amount: c.amount + amount };
+        }
+        return c;
+      });
+      setCart(updatedCart);
+    } else {
+      setCart((state) => [...state, { id, amount }]);
+    }
   }
+
+  useEffect(() => {
+    console.log(cart);
+  }, [cart]);
 
   return (
     <CartContext.Provider

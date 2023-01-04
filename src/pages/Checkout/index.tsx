@@ -6,6 +6,7 @@ import {
   Money,
   Trash,
 } from "phosphor-react";
+import { useState } from "react";
 import { AddRemove } from "../../components/AddRemove";
 import {
   ButtonPayment,
@@ -21,6 +22,19 @@ import {
 } from "./styles";
 
 export function Checkout() {
+  const [amount, setAmount] = useState(0);
+
+  function handleAdd() {
+    if (amount < 99) {
+      setAmount(amount + 1);
+    }
+  }
+
+  function handleRemove() {
+    if (amount > 0) {
+      setAmount(amount - 1);
+    }
+  }
   return (
     <CheckoutContainer>
       <section>
@@ -90,7 +104,12 @@ export function Checkout() {
             <div className="coffee-options">
               <p>Expresso Tradicional</p>
               <div className="coffee-options-buttons">
-                <AddRemove h={32} />
+                <AddRemove
+                  h={32}
+                  amount={amount}
+                  addOne={handleAdd}
+                  removeOne={handleRemove}
+                />
                 <RemoveItemButton>
                   <Trash size={18} />
                   <p>REMOVER</p>
