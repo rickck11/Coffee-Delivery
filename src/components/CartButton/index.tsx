@@ -19,7 +19,7 @@ export function CartButton({
   return (
     <CartButtonContainer color={color}>
       <ShoppingCart size={20} weight="fill" />
-      {notify && (
+      {notify && productsAmount > 0 && (
         <Notify color={color}>
           {productsAmount >= 10 ? "+9" : productsAmount}
         </Notify>

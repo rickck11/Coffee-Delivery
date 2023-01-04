@@ -28,8 +28,8 @@ export function Checkout() {
   const [totalPrice, setTotalPrice] = useState(0);
   const [finalPrice, setFinalPrice] = useState(0);
 
-  const delivery = 3.5;
   const haveItemsOnCart = cart.length > 0;
+  const delivery = haveItemsOnCart ? 3.5 : 0;
 
   function handleChangePaymentMode(mode: number) {
     setPaymentMode(mode);
@@ -129,8 +129,12 @@ export function Checkout() {
                 <span>Total</span>
                 <span>R$ {formartNumberToCurrency(finalPrice, "BR")}</span>
               </strong>
-              {/* <button disabled={!haveItemsOnCart}>CONFIRMAR PEDIDO</button> */}
-              <button form="coffee-form" type="submit">
+              {/* <button >CONFIRMAR PEDIDO</button> */}
+              <button
+                form="coffee-form"
+                type="submit"
+                disabled={!haveItemsOnCart}
+              >
                 CONFIRMAR PEDIDO
               </button>
             </ConfirmPayment>

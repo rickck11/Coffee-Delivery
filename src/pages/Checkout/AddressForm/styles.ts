@@ -30,6 +30,11 @@ export const FormContainer = styled.div`
         font-size: 14px;
         color: ${(props) => props.theme["base-label"]};
       }
+
+      &:active,
+      &:focus {
+        box-shadow: inset 0 0 0 1px ${(props) => props.theme["yellow-dark"]};
+      }
     }
 
     input.input-large {

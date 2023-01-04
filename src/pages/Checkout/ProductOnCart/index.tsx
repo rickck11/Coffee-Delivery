@@ -51,7 +51,7 @@ export function ProductOnCart({
               addOne={handleAdd}
               removeOne={handleRemove}
             />
-            <RemoveItemButton onClick={handleDeleteProduct}>
+            <RemoveItemButton onClick={handleDeleteProduct} type="button">
               <Trash size={18} />
               <p>REMOVER</p>
             </RemoveItemButton>
