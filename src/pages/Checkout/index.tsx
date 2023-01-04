@@ -6,8 +6,11 @@ import {
   Money,
   Trash,
 } from "phosphor-react";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { CoffeeList } from "../../assets/coffee/CoffeeList";
 import { AddRemove } from "../../components/AddRemove";
+import { CartContext } from "../../contexts/CartContext";
+import { ProductOnCart } from "./ProductOnCart";
 import {
   ButtonPayment,
   CheckoutContainer,
@@ -17,11 +20,10 @@ import {
   FormContainer,
   PaymentContainer,
   PaymentOptionsContainer,
-  RemoveItemButton,
-  Separator,
 } from "./styles";
 
 export function Checkout() {
+  const { cart } = useContext(CartContext);
   const [amount, setAmount] = useState(0);
 
   function handleAdd() {
@@ -96,29 +98,23 @@ export function Checkout() {
         <h3>Cafés selecionados</h3>
         {/* Selected Coffee List */}
         <CoffeeContainer>
-          <div className="coffee-item">
-            <img
-              src="https://user-images.githubusercontent.com/43411893/210564476-bd715ea3-c67d-457a-9842-e17617d54703.svg"
-              alt=""
-            />
-            <div className="coffee-options">
-              <p>Expresso Tradicional</p>
-              <div className="coffee-options-buttons">
-                <AddRemove
-                  h={32}
-                  amount={amount}
-                  addOne={handleAdd}
-                  removeOne={handleRemove}
+          {cart.map((c) => {
+            const productInfos = CoffeeList.find((cof) => cof.id === c.id);
+            if (productInfos) {
+              return (
+                <ProductOnCart
+                  id={c.id}
+                  amount={c.amount}
+                  key={c.id}
+                  imageSrc={productInfos.imageSrc}
+                  price={productInfos.price}
+                  title={productInfos.title}
                 />
-                <RemoveItemButton>
-                  <Trash size={18} />
-                  <p>REMOVER</p>
-                </RemoveItemButton>
-              </div>
-            </div>
-            <strong>R$ 9,90</strong>
-          </div>
-          <Separator />
+              );
+            }
+            return <></>;
+          })}
+
           <ConfirmPayment>
             <p>
               <span>Total de itens</span>

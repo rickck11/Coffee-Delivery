@@ -9,6 +9,7 @@ import {
 import { AddRemove } from "../../../../components/AddRemove";
 import { useContext, useState } from "react";
 import { CartContext } from "../../../../contexts/CartContext";
+import { formartNumberToCurrency } from "../../../../utils/utils";
 
 interface CoffeeCardProps {
   id: string;
@@ -66,10 +67,7 @@ export function CoffeeCard({
       <div className="control">
         <CoffeePrice>
           <small>R$</small>
-          {price
-            .toFixed(2)
-            .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-            .replace(".", ",")}
+          {formartNumberToCurrency(price, "BR")}
         </CoffeePrice>
         <div>
           <AddRemove

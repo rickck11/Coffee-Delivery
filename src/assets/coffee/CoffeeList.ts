@@ -1,4 +1,4 @@
-interface Coffee {
+export interface Coffee {
   id: string;
   title: string;
   description: string;
