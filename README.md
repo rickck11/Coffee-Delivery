@@ -28,6 +28,7 @@ Functionalities implemented:
 - Forms (React Hook Form, Validations)
 - Hooks (useEffect, useState, useNavigation, useContext)
 - ContextAPI to solve Prop Drilling situation with the Cart
+- Reducers (action and reducer) to cart functionalities
 
 #### Techs:
 

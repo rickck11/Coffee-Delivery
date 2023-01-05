@@ -1,11 +1,16 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
-import { json } from "react-router-dom";
-
-interface Product {
-  id: string;
-  amount: number;
-  price: number;
-}
+import {
+  createContext,
+  ReactNode,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
+import {
+  addOrUpdateProduct,
+  deleteProductById,
+  resetAllProductsFromCart,
+} from "../reducers/Coffee/actions";
+import { cartReducer, Product } from "../reducers/Coffee/reducer";
 
 export interface JsonOrderType {
   cep: string;
@@ -38,40 +43,28 @@ interface CartContextProviderProps {
 }
 
 export function CartContextProvider({ children }: CartContextProviderProps) {
-  const [cart, setCart] = useState<Product[]>([]);
+  const [cart, dispatchCart] = useReducer(cartReducer, []);
   const [jsonOrder, setJsonOrder] = useState<JsonOrderType | undefined>();
 
   function saveJsonOrder(json: JsonOrderType) {
     setJsonOrder(json);
   }
 
-  function addNewProduct({ id, amount, price }: Product) {
-    const isProductOnCart = cart.find((c) => c.id === id);
-    if (isProductOnCart) {
-      const updatedCart = cart.map((c) => {
-        if (c.id === id) {
-          return { ...c, amount: c.amount + amount };
-        }
-        return c;
-      });
-      setCart(updatedCart);
-    } else {
-      setCart((state) => [...state, { id, amount, price }]);
-    }
+  function deleteProduct(id: string) {
+    dispatchCart(deleteProductById(id));
   }
 
-  function deleteProduct(id: string) {
-    const isProductOnCart = cart.find((c) => c.id === id);
-    if (isProductOnCart) {
-      const deleteItem = cart.filter((c) => c.id !== id);
-      setCart(deleteItem);
-    }
+  function addNewProduct({ id, amount, price }: Product) {
+    dispatchCart(addOrUpdateProduct({ id, amount, price }));
   }
 
   function resetCart() {
-    setCart([]);
+    dispatchCart(resetAllProductsFromCart());
   }
 
+  useEffect(() => {
+    console.log(cart);
+  }, [cart]);
   return (
     <CartContext.Provider
       value={{

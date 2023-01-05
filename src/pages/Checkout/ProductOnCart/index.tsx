@@ -1,5 +1,5 @@
 import { Trash } from "phosphor-react";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { AddRemove } from "../../../components/AddRemove";
 import { CartContext } from "../../../contexts/CartContext";
 import { formartNumberToCurrency } from "../../../utils/utils";
