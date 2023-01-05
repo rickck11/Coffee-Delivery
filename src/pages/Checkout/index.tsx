@@ -19,6 +19,9 @@ import * as zod from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, FormProvider } from "react-hook-form";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const coffeeOrderFormValidationSchema = zod.object({
   cep: zod.string(),
   street: zod.string(),
@@ -106,6 +109,12 @@ export function Checkout() {
     console.log(json);
   }
 
+  const showToastMessage = () => {
+    toast.warning("Selecione uma forma de pagamento", {
+      position: toast.POSITION.TOP_CENTER,
+    });
+  };
+
   function handleCoffeeOrderSubmit(data: coffeeFormData) {
     if (paymentMode === 1 || paymentMode === 2 || paymentMode === 3) {
       const formJSON = generateJSON(data);
@@ -114,12 +123,13 @@ export function Checkout() {
       resetCart();
       reset();
     } else {
-      alert("Selecione um modo de pagamento.");
+      showToastMessage();
     }
   }
 
   return (
     <CheckoutContainer>
+      <ToastContainer />
       <form onSubmit={handleSubmit(handleCoffeeOrderSubmit)} action="">
         <section>
           <h3>Complete seu pedido</h3>
