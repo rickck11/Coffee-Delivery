@@ -1,10 +1,10 @@
 # Coffee Delivery
 
 ```
-Challenge: Create a react application that allows the user to add products to a shopping cart and complete the purchase
+Challenge: Create a react application that allows the user to add products to a shopping cart and complete the purchase.
 ```
 
->Want to test this application?
+>Want to test this application developed for study?
 >Access the example deployed: coffee-delivery.rickelmedias.dev
 
 #### Project:
