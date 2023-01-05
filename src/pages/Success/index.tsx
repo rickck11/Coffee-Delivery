@@ -1,8 +1,15 @@
 import { MapPin, Timer } from "phosphor-react";
 import { DeliveryInformations, Icon, SuccessContainer } from "./styles";
 import IllustrationSuccess from "../,./../../assets/IllustrationSuccess.svg";
+import { useContext, useEffect, useState } from "react";
+import { CartContext } from "../../contexts/CartContext";
+import { json } from "react-router-dom";
+
+interface Order {}
 
 export function Success() {
+  const { jsonOrder } = useContext(CartContext);
+
   return (
     <SuccessContainer>
       <h2>Uhu! Pedido confirmado </h2>
@@ -15,9 +22,14 @@ export function Success() {
                 <MapPin size={16} weight="fill" />
               </Icon>
               <p>
-                Entrega em <strong>Rua Exemploe, 187</strong>
+                Entrega em
+                <strong>
+                  {jsonOrder ? ` ${jsonOrder.street}` : " Rua de Exemplo, 187"}
+                </strong>
                 <br />
-                São Paulo - São Paulo, SP
+                {jsonOrder
+                  ? `${jsonOrder.neighborhood} - ${jsonOrder.city}, ${jsonOrder.uf}`
+                  : "Exemplo - Estado Exemplo, EX"}
               </p>
             </span>
             <span>
@@ -37,7 +49,9 @@ export function Success() {
               <p>
                 Pagamento na entrega
                 <br />
-                <strong>Cartão de Crédito</strong>
+                <strong>
+                  {jsonOrder ? jsonOrder.paymentMode : "Exemplo de Pagamento"}
+                </strong>
               </p>
             </span>
           </div>

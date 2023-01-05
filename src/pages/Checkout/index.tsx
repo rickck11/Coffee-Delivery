@@ -1,7 +1,7 @@
 import { Bank, CreditCard, CurrencyDollar, Money } from "phosphor-react";
 import { useContext, useEffect, useState } from "react";
 import { CoffeeList } from "../../assets/coffee/CoffeeList";
-import { CartContext } from "../../contexts/CartContext";
+import { CartContext, JsonOrderType } from "../../contexts/CartContext";
 import { formartNumberToCurrency } from "../../utils/utils";
 import { AddressForm } from "./AddressForm";
 import { ProductOnCart } from "./ProductOnCart";
@@ -14,7 +14,7 @@ import {
   PaymentContainer,
   PaymentOptionsContainer,
 } from "./styles";
-
+import { useNavigate } from "react-router-dom";
 import * as zod from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, FormProvider } from "react-hook-form";
@@ -35,7 +35,7 @@ const coffeeOrderFormValidationSchema = zod.object({
 type coffeeFormData = zod.infer<typeof coffeeOrderFormValidationSchema>;
 
 export function Checkout() {
-  const { cart, resetCart } = useContext(CartContext);
+  const { cart, resetCart, saveJsonOrder } = useContext(CartContext);
   const [paymentMode, setPaymentMode] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
   const [finalPrice, setFinalPrice] = useState(0);
@@ -89,7 +89,13 @@ export function Checkout() {
       });
     }
 
-    return {
+    const paymentModeText = [
+      "Cartão de Crédito",
+      "Cartão de Débito",
+      "Dinheiro",
+    ];
+
+    const json: JsonOrderType = {
       cep: data.cep,
       street: data.street,
       number: data.number,
@@ -101,12 +107,17 @@ export function Checkout() {
       totalPrice,
       deliveryPrice,
       finalPrice,
-      paymentMode,
+      paymentMode: paymentModeText[paymentMode - 1],
     };
+
+    return json;
   }
 
-  function sendCoffeeOrder(json: string) {
-    console.log(json);
+  const navigate = useNavigate();
+
+  function sendCoffeeOrder(json: JsonOrderType) {
+    saveJsonOrder(json);
+    navigate("/success");
   }
 
   const showToastMessage = () => {
@@ -118,7 +129,7 @@ export function Checkout() {
   function handleCoffeeOrderSubmit(data: coffeeFormData) {
     if (paymentMode === 1 || paymentMode === 2 || paymentMode === 3) {
       const formJSON = generateJSON(data);
-      sendCoffeeOrder(JSON.stringify(formJSON));
+      sendCoffeeOrder(formJSON);
       setPaymentMode(0);
       resetCart();
       reset();

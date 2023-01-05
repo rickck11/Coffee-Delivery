@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
+import { json } from "react-router-dom";
 
 interface Product {
   id: string;
@@ -6,11 +7,28 @@ interface Product {
   price: number;
 }
 
+export interface JsonOrderType {
+  cep: string;
+  street: string;
+  number: string;
+  complement: string;
+  city: string;
+  uf: string;
+  neighborhood: string;
+  orderList: object[];
+  totalPrice: number;
+  deliveryPrice: number;
+  finalPrice: number;
+  paymentMode: string;
+}
+
 interface CartContextType {
   cart: Product[];
   addNewProduct: (newProduct: Product) => void;
   deleteProduct: (id: string) => void;
   resetCart: () => void;
+  saveJsonOrder: (json: JsonOrderType) => void;
+  jsonOrder: JsonOrderType | undefined;
 }
 
 export const CartContext = createContext({} as CartContextType);
@@ -21,6 +39,11 @@ interface CartContextProviderProps {
 
 export function CartContextProvider({ children }: CartContextProviderProps) {
   const [cart, setCart] = useState<Product[]>([]);
+  const [jsonOrder, setJsonOrder] = useState<JsonOrderType | undefined>();
+
+  function saveJsonOrder(json: JsonOrderType) {
+    setJsonOrder(json);
+  }
 
   function addNewProduct({ id, amount, price }: Product) {
     const isProductOnCart = cart.find((c) => c.id === id);
@@ -56,6 +79,8 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
         addNewProduct,
         deleteProduct,
         resetCart,
+        saveJsonOrder,
+        jsonOrder,
       }}
     >
       {children}

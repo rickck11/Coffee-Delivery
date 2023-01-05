@@ -3,8 +3,8 @@ import styled from "styled-components";
 export const PresentationContainer = styled.div`
   padding: 5.75rem 10rem;
 
-  height: 544px;
   display: flex;
+  flex-wrap: wrap-reverse;
   justify-content: space-between;
   align-items: flex-start;
   background: linear-gradient(
@@ -39,6 +39,12 @@ export const PresentationContainer = styled.div`
       margin-bottom: 4.125rem;
     }
   }
+  aside {
+    img {
+      min-width: 300px;
+      width: 100%;
+    }
+  }
 `;
 
 export const Items = styled.div`
@@ -64,7 +70,7 @@ export const Item = styled.div<ItemProps>`
   margin: 0;
   padding: 0;
   gap: 0.75rem;
-
+  flex-wrap: wrap;
   p {
     color: ${(props) => props.theme["base-text"]};
     font-size: 1rem;
