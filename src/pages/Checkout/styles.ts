@@ -104,7 +104,6 @@ export const ButtonPayment = styled.button`
 
 export const CoffeeContainer = styled.div`
   width: 100%;
-  max-height: 500px;
   border-radius: 6px 44px;
   margin-top: 16px;
   padding: 48px 44px;
